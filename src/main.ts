@@ -48,12 +48,13 @@ export default class AdaptPlugin extends Plugin {
 		const fileToDateHandler = new OpenFileToDateHandler(this.app, this.settings);
 		const appendTextHandler = new AppendFileTextHandler(this.app);
 		try {
-			const items = await apiHandler.get(this.settings.lastMaxUpdatedAt);
+			const items = await apiHandler.get(new Date(this.settings.lastMaxUpdatedAt));
 			if (items.length > 0) {
-				for(const item of items) {
+				const sortedItems = [...items].sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
+				for(const item of sortedItems) {
 					const itemDate = item.updatedAt;
 					try{
-						const file = fileToDateHandler.open(itemDate);
+						const file = await fileToDateHandler.open(itemDate);
 						if (file instanceof TFile) {
 							await appendTextHandler.appendText(file, item);
 							await this.moveCursor(itemDate);

@@ -49,8 +49,9 @@ export class GetNewAdaptNotesHandler {
                 const result = response.json as AdaptNotesListResponse;
                 itemsReturned = result.items.length;
                 if (result.items.length > 0) {
-                    items = [...items,...result.items];
+                    items = [...items,...result.items.map(x => {x.createdAt = new Date(x.createdAt); x.updatedAt = new Date(x.updatedAt); return x;})];
                 }
+                page = page + 1;
             }
             else {
                 return Promise.reject(new Error(`Request failed: ${response.status} ${response.text}`))

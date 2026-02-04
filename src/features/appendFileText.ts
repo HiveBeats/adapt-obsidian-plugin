@@ -9,16 +9,14 @@ export class AppendFileTextHandler {
     }
 
     private getTextFromNote(note: AdaptNote): string {
-        return `---\r\n# ${note.title}\r\n${note.content}`
+        return `\r\n---\r\n# ${note.title}\r\n${note.content}`
     }
 
     async appendText(file: TFile, content: AdaptNote): Promise<void> {
         const vault = this._app.vault;
 
         await vault.process(file, (data: string) => {
-            data.concat('\r\n'); 
-            data.concat(this.getTextFromNote(content));
-            return data;
+            return data.concat('\r\n').concat(this.getTextFromNote(content));
         });
     }
 }
