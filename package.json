@@ -1,7 +1,7 @@
 {
-	"name": "adapt-obsidian-plugin",
-	"version": "1.0.3",
-	"description": "This is the plugin for syncing your ADAPT notes with Obsidian",
+	"name": "adapt-notes-sync",
+	"version": "1.0.4",
+	"description": "Handles syncing your adaptmind.io notes with Obsidian.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {

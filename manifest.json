@@ -1,11 +1,11 @@
 {
-	"id": "adapt-obsidian-plugin",
-	"name": "ADAPT Notes Plugin",
-	"version": "1.0.3",
+	"id": "adapt-notes-sync",
+	"name": "ADAPT Notes Sync",
+	"version": "1.0.4",
 	"minAppVersion": "0.15.0",
-	"description": "Handles syncing for the new adaptmind.io notes for your account",
+	"description": "Handles syncing your adaptmind.io notes.",
 	"author": "e1lama",
 	"authorUrl": "https://e1lama.ru",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"fundingUrl": "https://pay.cloudtips.ru/p/2a631e11",
 	"isDesktopOnly": false
 }
