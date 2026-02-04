@@ -1,90 +1,136 @@
-# Obsidian Sample Plugin
+# ADAPT Notes Plugin for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+A plugin for Obsidian that syncs your ADAPT mind notes with your vault.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- Syncs new ADAPT notes from adaptmind.io to your Obsidian vault
+- Automatically creates daily note files when needed
+- Supports both daily note folders and direct note syncing
+- Maintains synchronization state to prevent duplicate imports
 
-## First time developing plugins?
+## Installation
 
-Quick starting guide for new plugin devs:
+### From Obsidian Community Plugins
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+1. Open Obsidian
+2. Go to **Settings → Community plugins**
+3. Disable "Safe mode" 
+4. Click "Browse" and search for "ADAPT Notes Plugin"
+5. Click "Install" and then "Enable"
 
-## Releasing new releases
+### Manual Installation
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+1. Download the latest release from GitHub
+2. Extract the files to your Obsidian plugins folder:
+   - Windows: `%APPDATA%\Obsidian\plugins\adapt-obsidian-plugin`
+   - macOS: `~/Library/Application Support/Obsidian/plugins/adapt-obsidian-plugin`
+   - Linux: `~/.config/Obsidian/plugins/adapt-obsidian-plugin`
+3. Reload Obsidian and enable the plugin in Settings → Community plugins
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+## Setup
 
-## Adding your plugin to the community plugin list
+### Required Configuration
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+1. Open Obsidian Settings → Community plugins → ADAPT Notes Plugin
+2. Configure the following settings:
+   - **ADAPT API Key**: Your API key from adaptmind.io (required)
+   - **Daily Folder**: Path to your daily notes folder (optional, leave blank if not using daily notes)
 
-## How to use
+### Getting Your ADAPT API Key
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+1. Log in to your adaptmind.io account
+2. Navigate to your account settings
+3. Find the API keys section
+4. Generate a new API key or use an existing one
+5. Paste the key into the plugin settings
 
-## Manually installing the plugin
+## Usage
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+### Syncing Notes
 
-## Improve code quality with eslint
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
+Once configured, you can sync your ADAPT notes using either:
 
-## Funding URL
+1. **Command Palette**:
+   - Press `Ctrl/Cmd + Shift + P` to open the command palette
+   - Search for "Import new ADAPT notes"
+   - Execute the command
 
-You can include funding URLs where people who use your plugin can financially support it.
+2. **Ribbon Icon**:
+   - Look for the ADAPT icon in the left sidebar ribbon
+   - Click the icon to sync your notes
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+The plugin will automatically track the last synced date.
+Subsequent syncs will only fetch new notes since the last sync
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
-```
+### Note Organization
 
-If you have multiple URLs, you can also do:
+The plugin organizes your ADAPT notes in the following way:
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+- **Daily Notes**: If you have a daily notes folder configured, notes will be organized by date (e.g., `2023-10-15.md`)
+- **Regular Notes**: If no daily folder is configured, notes will be saved directly to the vault root
 
-## API Documentation
+Each note will be appended to the corresponding daily note file with the note content prepended by a timestamp and title.
 
-See https://docs.obsidian.md
+## How It Works
+
+1. The plugin fetches new notes from adaptmind.io since your last sync
+2. For each note, it:
+   - Opens or creates a daily note file for that date
+   - Appends the note content to the file
+   - Updates the last sync timestamp to prevent duplicates
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Authentication Failed**
+   - Verify your API key is correct
+   - Check that your API key hasn't expired
+   - Ensure your adaptmind.io account has proper permissions
+
+2. **Notes Not Syncing**
+   - Confirm the daily folder path is correct (if using daily notes)
+   - Check that your Obsidian vault has write permissions
+   - Review the console (`ctrl-shift-i/cmd-option-id`) for error messages
+
+3. **Duplicate Notes**
+   - The plugin tracks the last sync time to prevent duplicates
+   - If duplicates appear, try manually clearing the sync history
+
+## Contributing
+
+This plugin is open-source and welcomes contributions:
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request with your changes
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+For support, please open an issue on the GitHub repository or contact the plugin author.
+
+## Changelog
+
+### v1.0.3
+- Improved error handling for network requests
+- Better handling of note timestamps
+
+### v1.0.2
+- Fixed daily notes folder path resolution
+- Added better logging for debugging
+
+### v1.0.1
+- Initial release with core syncing functionality
+
+## Author
+
+Created by e1lama ([https://e1lama.ru](https://e1lama.ru))
+
+## Credits
+
+This plugin was built using the Obsidian plugin development template and follows Obsidian's development guidelines.
