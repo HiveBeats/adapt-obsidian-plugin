@@ -10,16 +10,14 @@ export default class AdaptPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		// Add ribbon icon for quick access  
-		// eslint-disable-next-line obsidianmd/ui/sentence-case
-		this.addRibbonIcon('feather', 'Sync ADAPT notes', (evt: MouseEvent) => {
+		// Add ribbon icon for quick access
+		this.addRibbonIcon('feather', 'Sync adaptmind.io notes', (evt: MouseEvent) => {
 			void this.handleImport();
 		});
 
 		this.addCommand({
 			id: 'sync-adapt-notes',
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			name: 'Import new ADAPT notes',
+			name: 'Import new adaptmind.io notes',
 			callback: () => this.handleImport()
 		});
 
@@ -62,8 +60,7 @@ export default class AdaptPlugin extends Plugin {
 					}
 					catch (e) {
 						console.error("Error writing ADAPT note to file: %s", e)
-						// eslint-disable-next-line obsidianmd/ui/sentence-case
-						new Notice("Error syncing with ADAPT");
+						new Notice("Error syncing with adapt");
 					}
 				}
 			}

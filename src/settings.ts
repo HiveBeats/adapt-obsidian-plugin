@@ -29,13 +29,10 @@ export class AdaptPluginSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			.setName('ADAPT API Key')
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			.setDesc('API key from your ADAPT account')
+			.setName("Adapt API key")
+			.setDesc('API key from your adaptmind.io account')
 			.addText(text => text
-				// eslint-disable-next-line obsidianmd/ui/sentence-case
-				.setPlaceholder('API Key')
+				.setPlaceholder('API key')
 				.setValue(this.plugin.settings.adaptApiKey)
 				.onChange(async (value) => {
 					this.plugin.settings.adaptApiKey = value;
@@ -43,13 +40,10 @@ export class AdaptPluginSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			.setName('Daily Folder')
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			.setDesc("Your Daily Notes folder (leave empty, if you don't use them)")
+			.setName('Daily folder')
+			.setDesc("Your daily notes folder (leave empty, if you don't use them)")
 			.addText(text => text
-				// eslint-disable-next-line obsidianmd/ui/sentence-case
-				.setPlaceholder('Daily Folder')
+				.setPlaceholder('Daily folder')
 				.setValue(this.plugin.settings.dailyFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.dailyFolder = value;

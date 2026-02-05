@@ -1,7 +1,7 @@
 {
 	"id": "adapt-notes-sync",
 	"name": "ADAPT Notes Sync",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"minAppVersion": "0.15.0",
 	"description": "Handles syncing your adaptmind.io notes.",
 	"author": "e1lama",

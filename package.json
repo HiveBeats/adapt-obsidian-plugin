@@ -1,6 +1,6 @@
 {
 	"name": "adapt-notes-sync",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Handles syncing your adaptmind.io notes with Obsidian.",
 	"main": "main.js",
 	"type": "module",
